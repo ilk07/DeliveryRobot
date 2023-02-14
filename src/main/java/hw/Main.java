@@ -7,12 +7,19 @@ import java.util.stream.Collectors;
 public class Main {
     public static final Map<Integer, Integer> sizeToFreq = new ConcurrentHashMap<>();
 
+
     public static void main(String[] args) {
+
+        List<Thread> threads = new ArrayList<>(); //список для хранения создаваемых потоков
 
         int streaming = 1000;
         for (int i = 0; i < streaming; i++) {
             Thread thread = new Thread(generateRoute("RLRFR", 100));
             thread.start();
+            threads.add(thread);
+        }
+
+        for (Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
